@@ -14,7 +14,8 @@
                 var action = $form.attr('action');
                 var method;
                 var data;
-
+                var dataType;
+                
                 e.preventDefault();
 
                 if ($form.attr('method') === undefined) {
@@ -24,17 +25,21 @@
                 }
 
                 if (method === 'GET') {
-                    data = $form.serialize();
+                    dataType = $form.serialize();
                 } else {
                     data = new FormData(this);
                 }
-
+                
+                if (dataType === 'jsonp') {
+                    dataType = 'jsonp';
+                }
                 var success = options.success;
 
                 $.extend(options, {
                     url: action,
                     type: method,
                     data: data,
+                    dataType: dataType,
                     processData: false,
                     contentType: false,
                     success: function(data) {
